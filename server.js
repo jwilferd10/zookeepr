@@ -1,5 +1,6 @@
 const { animals } = require('./data/animals')
 const express = require('express');
+const PORT = process.env.PORT || 3001; //Applications served over Heroku as well as most hosts must run on port 80. If the host uses HTTPS, then the port would be set to 443.
 const app = express();
 
 // This function will take in req.query as an argument 
@@ -48,6 +49,6 @@ app.get('/api/animals', (req, res) => {
   res.json(results);
 });
 
-app.listen(3001, () => {
-    console.log(`API server now on port 3001`);
+app.listen(PORT, () => {
+    console.log(`API server now on port ${PORT}!`);
 });
