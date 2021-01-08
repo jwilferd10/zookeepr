@@ -7,6 +7,10 @@ const express = require('express');
 const PORT = process.env.PORT || 3001; //Applications served over Heroku as well as most hosts must run on port 80. If the host uses HTTPS, then the port would be set to 443.
 const app = express();
 
+// Middleware that instructs the server to make certain files readily available and to not gate it behind a server endpoint.
+// Provide a file path to a location in our application and instruct the server to make these files static resources.
+app.use(express.static('public'));
+
 // Parse incoming string or array data
 // Takes incoming POST data and converts it to key/value pairings that can be accessed in the req.body object.
 app.use(express.urlencoded({
@@ -138,6 +142,21 @@ app.post('/api/animals', (req, res) => {
     // res.json(animal);
 });
 
+// This GET route has just one job to do, and that is to respond with an HTML page to display in the browser.
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/index.html'));
+})
+
+// This route will take us to /animals
+app.get('/animals', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/animals.html'));
+});
+
+app.get('/zookeepers', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/zookeepers.html'));
+});
+
+// This should always be last
 app.listen(PORT, () => {
     console.log(`API server now on port ${PORT}!`);
 });
